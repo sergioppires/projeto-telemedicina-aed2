@@ -21,6 +21,9 @@ public class PostMedicRecord {
         paciente.setIdade("12");
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Chave", "AED2");
+
+
+
         return new ResponseEntity<Paciente>(paciente, responseHeaders, HttpStatus.OK);
     }
 
