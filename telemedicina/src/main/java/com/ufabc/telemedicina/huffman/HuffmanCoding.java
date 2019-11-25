@@ -13,7 +13,7 @@ public class HuffmanCoding {
 
     private final LinkedHashMap map;
     private final List<Node> nodes;
-    private final Map<String, Character> dictionary;
+    private final Map<String, String> dictionary;
     private final String string;
     private StringBuilder path;
     private int compressedSize;
@@ -84,7 +84,7 @@ public class HuffmanCoding {
             path = new StringBuilder();
             compress(c, nodes.get(0));
             str.append(path);
-            dictionary.put(path.toString(),c);
+            dictionary.put(path.toString(),String.valueOf(c));
         }
 
         uncompressedSize = string.length() * 8;
@@ -153,7 +153,7 @@ public class HuffmanCoding {
      *
      * @return the map containing binary representations
      */
-    public Map<String, Character> getDictionary() {
+    public Map<String, String> getDictionary() {
         return dictionary;
     }
 
