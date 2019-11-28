@@ -32,16 +32,27 @@ public class GetMedicRecord {
     @Autowired
     PostService postService;
 
-    @GetMapping(value="/paciente/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Paciente> requestPaciente(
-            @PathVariable(value="id") long documento) throws JsonProcessingException {
+    @GetMapping(value="/paciente/{hospital}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Paciente>> requestPaciente(
+            @PathVariable(value="hospital") String hospital) throws JsonProcessingException {
 
-        List<HuffmanPaciente> listaPrint = getService.findByCpf(documento);
-        HuffmanPaciente pacientezero = listaPrint.get(0);
-        System.out.println("Começo do decoder DEPOIS de bater na base de Dados");
-        Paciente paciente = huffmanDecoder.desserializar(pacientezero);
+        List<HuffmanPaciente> listaPrint = getService.findByHospital(hospital);
+        List<Paciente> listaProcessamento = new ArrayList<>();
+        List<Paciente> listaRetorno = new ArrayList<>();
 
-        return new ResponseEntity<Paciente>(paciente, HttpStatus.OK);
+        for (HuffmanPaciente paciente : listaPrint){
+            Paciente pacienteLista = huffmanDecoder.desserializar(paciente);
+            listaProcessamento.add(pacienteLista);
+        }
+
+        for(Paciente paciente : listaProcessamento) {
+            if (paciente.getHospitalDestinado().substring(paciente.getHospitalDestinado().length() -1).equals(hospital)) {
+                listaRetorno.add(paciente);
+            }
+        }
+
+
+        return new ResponseEntity<List<Paciente>>(listaRetorno, HttpStatus.OK);
     };
 
     @GetMapping(value="/paciente/", produces = MediaType.APPLICATION_JSON_VALUE)

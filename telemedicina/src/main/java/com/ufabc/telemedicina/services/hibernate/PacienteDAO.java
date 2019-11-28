@@ -10,7 +10,7 @@ public interface PacienteDAO {
 
     public List<HuffmanPaciente> findAllPacientes();
 
-    public List<HuffmanPaciente> findByCpf(long cpf);
+    public List<HuffmanPaciente> findByHospital(String hospital);
 
     public void savePaciente(HuffmanPaciente paciente);
 

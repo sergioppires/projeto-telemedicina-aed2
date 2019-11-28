@@ -37,12 +37,7 @@ public class PostMedicRecord {
             @PathVariable(value="id") String documento,
             @RequestBody Paciente payload) throws JsonProcessingException {
 
-        Paciente paciente = new Paciente();
-        paciente.setCpf(documento);
-        paciente.setIdade(payload.getIdade());
-        paciente.setTipoSangue(payload.getTipoSangue());
-        paciente.setSexo(payload.getSexo());
-        paciente.setNome(payload.getNome());
+        Paciente paciente = payload;
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Chave", "AED2");
@@ -59,7 +54,7 @@ public class PostMedicRecord {
         System.out.println("Começo do decoder");
         System.out.println(huffmanDecoder.decompress(huffman.getCompressedString(), (HashMap<String, String>) huffman.getDictionary()));
 
-        HuffmanPaciente pacienteDados = new HuffmanPaciente(0L,Long.parseLong(paciente.getCpf()),huffman.getCompressedString(),huffman.getDictionary().toString());
+        HuffmanPaciente pacienteDados = new HuffmanPaciente(0L,Long.parseLong(paciente.getCpf()),huffman.getCompressedString(),huffman.getDictionary().toString(),paciente.getHospitalDestinado().substring(paciente.getHospitalDestinado().length() - 1));
         postService.savePacient(pacienteDados);
 
         return new ResponseEntity<Paciente>(paciente, responseHeaders, HttpStatus.OK);

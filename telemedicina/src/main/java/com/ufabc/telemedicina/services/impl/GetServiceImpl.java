@@ -25,8 +25,8 @@ public class GetServiceImpl implements GetService {
 
     @Override
     @Transactional
-    public List<HuffmanPaciente> findByCpf(long cpf) {
-        return pacienteDAO.findByCpf(cpf);
+    public List<HuffmanPaciente> findByHospital(String hospital) {
+        return pacienteDAO.findByHospital(hospital);
     }
 
 

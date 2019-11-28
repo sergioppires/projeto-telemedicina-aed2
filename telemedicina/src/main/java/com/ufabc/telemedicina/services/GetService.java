@@ -8,7 +8,7 @@ public interface GetService {
 
     public List<HuffmanPaciente> findAllPacientes();
 
-    public List<HuffmanPaciente> findByCpf(long cpf);
+    public List<HuffmanPaciente> findByHospital(String hospital);
 
 
 }

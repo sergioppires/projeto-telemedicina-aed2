@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -26,39 +27,40 @@ public class PacienteDAOImpl implements PacienteDAO {
     public List<HuffmanPaciente> findAllPacientes() {
         Session currentSession = entityManager.unwrap(Session.class);
 
-        Query<HuffmanPaciente> theQuery = currentSession.createQuery("from pacientes", HuffmanPaciente.class);
-
-        List<HuffmanPaciente> pacientes = theQuery.getResultList();
-
-        return pacientes;
+        Query<HuffmanPaciente> theQuery = currentSession.createQuery("from pacientes");
+        currentSession.close();
+        return theQuery.list();
     }
 
     @Override
-    public List<HuffmanPaciente> findByCpf(long cpf) {
-        Session currentSession = entityManager.unwrap(Session.class);
-        String cpfString = String.valueOf(cpf);
-
-        Query<HuffmanPaciente> theQuery = currentSession.createQuery("from pacientes WHERE cpf=:cpf",HuffmanPaciente.class);
-        theQuery.setParameter("cpf", cpf);
-        List<HuffmanPaciente> pacientes = theQuery.getResultList();
-
+    @Transactional
+    public List<HuffmanPaciente> findByHospital(String hospital) {
+        TypedQuery<HuffmanPaciente> q = entityManager.createQuery("SELECT p FROM pacientes p WHERE p.hospital = :hospital", HuffmanPaciente.class);
+        q.setParameter("hospital", hospital);
+        List<HuffmanPaciente> pacientes =  q.getResultList();
         return pacientes;
+
     }
 
     @Override
+    @Transactional
     public void savePaciente(HuffmanPaciente paciente) {
-        Session currentSession = entityManager.unwrap(Session.class);
-
-        currentSession.saveOrUpdate(paciente);
+        if (paciente.getId() == null) {
+            entityManager.persist(paciente);
+        } else {
+            paciente = entityManager.merge(paciente);
+        }
     }
 
     @Override
+    @Transactional
     public void deleteClientByCpf(long cpf) {
         Session currentSession = entityManager.unwrap(Session.class);
 
         Query theQuery = currentSession.createQuery("delete from clients where id=:cpf");
         theQuery.setParameter("cpf", cpf);
         theQuery.executeUpdate();
+        currentSession.close();
 
     }
 }

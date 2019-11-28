@@ -15,17 +15,24 @@ public class HuffmanPaciente {
     @Column(name = "cpf")
     private Long cpf;
 
-    @Column(name = "data")
+    @Column(name = "data", columnDefinition="TEXT")
     private String data;
 
-    @Column(name = "dicionario")
+    @Column(name = "dicionario", columnDefinition="TEXT")
     private String dicionario;
 
-    public HuffmanPaciente(Long id, Long cpf, String data, String dicionario) {
+    @Column(name = "hospital", columnDefinition="TEXT")
+    private String hospital;
+
+    public HuffmanPaciente() {
+    }
+
+    public HuffmanPaciente(Long id, Long cpf, String data, String dicionario, String hospital) {
         this.id = id;
         this.cpf = cpf;
         this.data = data;
         this.dicionario = dicionario;
+        this.hospital = hospital;
     }
 
     public Long getId() {
@@ -58,5 +65,13 @@ public class HuffmanPaciente {
 
     public void setDicionario(String dicionario) {
         this.dicionario = dicionario;
+    }
+
+    public String getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(String hospital) {
+        this.hospital = hospital;
     }
 }

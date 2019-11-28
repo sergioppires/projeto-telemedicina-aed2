@@ -21,7 +21,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePacientById(int cpf) {
+    public void deletePacientById(long cpf) {
         pacienteDAO.deleteClientByCpf(cpf);
     }
 }

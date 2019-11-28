@@ -2,11 +2,24 @@ package com.ufabc.telemedicina.domains;
 
 public class Paciente {
 
-    String nome;
-    String idade;
-    String tipoSangue;
     String cpf;
+    String nome;
     String sexo;
+    String idade;
+
+    String tipoSangue;
+    String rh;
+    String hospitalDestinado;
+
+    String descricao;
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
     public String getNome() {
         return nome;
@@ -14,6 +27,14 @@ public class Paciente {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 
     public String getIdade() {
@@ -32,19 +53,27 @@ public class Paciente {
         this.tipoSangue = tipoSangue;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getRh() {
+        return rh;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setRh(String rh) {
+        this.rh = rh;
     }
 
-    public String getSexo() {
-        return sexo;
+    public String getHospitalDestinado() {
+        return hospitalDestinado;
     }
 
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
+    public void setHospitalDestinado(String hospitalDestinado) {
+        this.hospitalDestinado = hospitalDestinado;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

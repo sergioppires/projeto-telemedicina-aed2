@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufabc.telemedicina.domains.HuffmanPaciente;
 import com.ufabc.telemedicina.domains.Paciente;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,15 +33,42 @@ public class HuffmanDecoder {
 
     public Paciente desserializar(HuffmanPaciente paciente) throws JsonProcessingException {
 
-        Map<String, String> dicionarioReconstruido = Arrays.stream(paciente.getDicionario().split(","))
-            .map(s -> s.split("=", 2))
-            .collect(Collectors.toMap(s -> s[0], s -> s[1]));
+        String raw = paciente.getDicionario().substring(1, paciente.getDicionario().length()-1);
+        raw = raw.replaceAll(",,","virgula,");
 
-    String jsonRaw = this.decompress(paciente.getData(), (HashMap<String, String>) dicionarioReconstruido);
+
+        String[] keyValuePairs = raw.split(",");
+        HashMap<String,String> dicionarioReconstruido = new HashMap<>();
+
+        for(String pair : keyValuePairs)                        //iterate over the pairs
+        {
+            if(!StringUtils.isEmpty(pair)) {
+                String[] entry = pair.split("=");
+                if(entry[1].trim().equals("virgula")){
+                    entry[1] = ",";
+                } else if (StringUtils.isEmpty(entry[1].trim())){
+                    entry[1] = "_";
+                }
+                dicionarioReconstruido.put(entry[0].trim(), entry[1].trim());
+            }
+        }
+
+        String jsonRaw = this.decompress(paciente.getData(), dicionarioReconstruido);
 
     ObjectMapper mapper = new ObjectMapper();
     Paciente pojo = mapper.readValue(jsonRaw, Paciente.class);
+
+
+
     return pojo;
+}
+
+private Paciente validadorString(Paciente paciente){
+        Paciente pacienteReturn = paciente;
+        pacienteReturn.setHospitalDestinado(paciente.getHospitalDestinado().replaceAll("_"," "));
+        pacienteReturn.setNome(paciente.getNome().replaceAll("_"," "));
+        pacienteReturn.setDescricao(paciente.getDescricao().replaceAll("_"," "));
+        return pacienteReturn;
 }
 
 }
