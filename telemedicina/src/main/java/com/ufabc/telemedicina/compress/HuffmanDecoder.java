@@ -1,18 +1,13 @@
-package com.ufabc.telemedicina.huffman;
+package com.ufabc.telemedicina.compress;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufabc.telemedicina.domains.HuffmanPaciente;
 import com.ufabc.telemedicina.domains.Paciente;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class HuffmanDecoder {

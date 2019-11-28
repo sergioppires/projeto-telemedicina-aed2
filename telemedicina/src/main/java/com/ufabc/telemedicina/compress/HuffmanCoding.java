@@ -1,4 +1,4 @@
-package com.ufabc.telemedicina.huffman;
+package com.ufabc.telemedicina.compress;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,11 +20,6 @@ public class HuffmanCoding {
     private int uncompressedSize;
     private String compressedString;
 
-    /**
-     * Algorithm that compresses text using Huffman coding.
-     *
-     * @param text text to compress
-     */
     public HuffmanCoding(String text) {
         map = new LinkedHashMap();
         nodes = new ArrayList();

@@ -1,4 +1,4 @@
-package com.ufabc.telemedicina.huffman;
+package com.ufabc.telemedicina.compress;
 
 public class Node {
 

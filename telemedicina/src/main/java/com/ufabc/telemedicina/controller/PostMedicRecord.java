@@ -2,10 +2,12 @@ package com.ufabc.telemedicina.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ufabc.telemedicina.compress.ImageCompression;
 import com.ufabc.telemedicina.domains.HuffmanPaciente;
+import com.ufabc.telemedicina.domains.ImageStatus;
 import com.ufabc.telemedicina.domains.Paciente;
-import com.ufabc.telemedicina.huffman.HuffmanCoding;
-import com.ufabc.telemedicina.huffman.HuffmanDecoder;
+import com.ufabc.telemedicina.compress.HuffmanCoding;
+import com.ufabc.telemedicina.compress.HuffmanDecoder;
 import com.ufabc.telemedicina.services.GetService;
 import com.ufabc.telemedicina.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -31,6 +34,9 @@ public class PostMedicRecord {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    ImageCompression imageCompression;
 
     @PostMapping(value="/paciente/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Paciente> requestPaciente(
@@ -68,6 +74,14 @@ public class PostMedicRecord {
         postService.deletePacientById(documento);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value="/imagem/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ImageStatus> deletePaciente() throws IOException {
+
+        ImageStatus imageStatus = imageCompression.comprimirImagem();
+
+        return new ResponseEntity<>(imageStatus, HttpStatus.OK);
     }
 
 
